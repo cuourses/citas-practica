@@ -1,5 +1,6 @@
 import Header from "./components/Header"
 import Formulario from "./components/Formulario"
+import ListadoPacientes from "./components/ListadoPacientes"
 
 function App() {
 
@@ -10,7 +11,7 @@ function App() {
       <div
         className=" pb-10 grid gap-8 md:grid-cols-2">
         <Formulario />
-        <p>listado pacientes</p>
+        <ListadoPacientes />
       </div>
 
     </div>
