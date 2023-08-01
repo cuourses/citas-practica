@@ -1,7 +1,7 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Error from "./Error";
 
-const Formulario = ({ pacientes, setPacientes }) => {
+const Formulario = ({ pacientes, setPacientes, paciente, setPaciente }) => {
   const [nombre, setNombre] = useState('');
   const [propietario, setPropietario] = useState('');
   const [email, setEmail] = useState('');
@@ -9,6 +9,18 @@ const Formulario = ({ pacientes, setPacientes }) => {
   const [sintoma, setSintoma] = useState('');
   const [error, setError] = useState(false);
 
+  useEffect(() => {
+    if (Object.keys(paciente).length) {
+      setNombre(paciente.nombre)
+      setPropietario(paciente.propietario)
+      setEmail(paciente.email)
+      setFecha(paciente.fecha)
+      setSintoma(paciente.sintoma)
+    }
+  }, [paciente]);
+
+  // Generar id
+  const generarId = () => Date.now().toString(36).substring(2) + Math.random().toString(36).substring(2);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -27,10 +39,22 @@ const Formulario = ({ pacientes, setPacientes }) => {
       propietario,
       email,
       fecha,
-      sintoma
+      sintoma,
     };
 
-    setPacientes([...pacientes, newPaciente]);
+    if (paciente.id) {
+      // Editar Paciente 
+      newPaciente.id = paciente.id;
+
+      const nuevosPacientes = pacientes.map(pacienteState => pacienteState.id === newPaciente.id ? newPaciente : pacienteState);
+      setPacientes(nuevosPacientes)
+
+      setPaciente({})
+    } else {
+      // Agregar paciente
+      newPaciente.id = generarId();
+      setPacientes([...pacientes, newPaciente]);
+    }
 
     // Reiniciar Formulario
     setNombre('');
@@ -39,6 +63,7 @@ const Formulario = ({ pacientes, setPacientes }) => {
     setFecha('');
     setSintoma('');
   };
+
 
   return (
     <div>
@@ -106,7 +131,7 @@ const Formulario = ({ pacientes, setPacientes }) => {
 
         <input
           type="submit"
-          value="Agregar Paciente"
+          value={paciente.id ? "editar paciente" : "agregar paciente"}
           className="w-full p-3 font-bold uppercase cursor-pointer transition-colors duration-300 text-white bg-indigo-600  hover:bg-indigo-800" />
       </form>
 
