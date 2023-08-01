@@ -1,5 +1,5 @@
-function Paciente({ paciente, setPaciente }) {
-  const { nombre, propietario, email, fecha, sintoma } = paciente;
+function Paciente({ paciente, setPaciente, eliminarPaciente }) {
+  const { nombre, propietario, email, fecha, sintoma, id } = paciente;
 
   return (
     <div className='mb-5 py-10 px-5 rounded-lg shadow-lg bg-white'>
@@ -16,7 +16,8 @@ function Paciente({ paciente, setPaciente }) {
           Editar
         </button>
 
-        <button className="py-2 px-10 font-bold uppercase text-white rounded-md bg-red-600 cursor-pointer transition-all duration-300 hover:bg-red-700">
+        <button className="py-2 px-10 font-bold uppercase text-white rounded-md bg-red-600 cursor-pointer transition-all duration-300 hover:bg-red-700"
+          onClick={() => eliminarPaciente(id)}>
           Eliminar
         </button>
       </div>
